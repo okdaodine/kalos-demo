@@ -27,7 +27,7 @@ const timeAtom = atom('');
 const payloadAtom = atom(get => ({
   prompt: get(promptAtom),
   negative_prompt: get(negativePromptAtom),
-  step: get(enabledSettingsAtom) ? Number(get(stepAtom) || '20') : 20,
+  step: get(enabledSettingsAtom) ? Number(get(stepAtom) || '32') : 32,
   seed: get(enabledSettingsAtom) ? Number(get(seedAtom) || '-1') : -1,
   cfg: get(enabledSettingsAtom) ? get(cfgAtom) : '7',
 }));
