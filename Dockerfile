@@ -1,19 +1,19 @@
-FROM node:16.13.2 AS base
+FROM node:16.13.2
 
 ENV NODE_ENV=production \
   APP_PATH=/app
 
 WORKDIR $APP_PATH
 
-FROM base AS install
+# FROM base AS install
 
-COPY package.json ./
+# COPY package.json package-lock.json ./
 
-RUN npm install
+# RUN npm install
 
-FROM base
+# FROM base
 
-COPY --from=install $APP_PATH/node_modules ./node_modules
+# COPY --from=install $APP_PATH/node_modules ./node_modules
 
 COPY . .
 
