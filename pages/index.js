@@ -49,8 +49,8 @@ export default function Home() {
   const setTime = useSetAtom(timeAtom);
 
   React.useEffect(() => {
-    if (getUrlQuery().get('prompt')) {
-      setPrompt(getUrlQuery().get('prompt'));
+    if (getUrl().searchParams.get('prompt')) {
+      setPrompt(getUrl().searchParams.get('prompt'));
     }
   }, []);
 
@@ -226,20 +226,20 @@ function Settings() {
 
   React.useEffect(() => {
     let effected = false;
-    if (getUrlQuery().get('negative_prompt')) {
-      setNegativePrompt(getUrlQuery().get('negative_prompt'));
+    if (getUrl().searchParams.get('negative_prompt')) {
+      setNegativePrompt(getUrl().searchParams.get('negative_prompt'));
       effected = true;
     }
-    if (getUrlQuery().get('step')) {
-      setStep(getUrlQuery().get('step'));
+    if (getUrl().searchParams.get('step')) {
+      setStep(getUrl().searchParams.get('step'));
       effected = true;
     }
-    if (getUrlQuery().get('seed')) {
-      setSeed(getUrlQuery().get('seed'));
+    if (getUrl().searchParams.get('seed')) {
+      setSeed(getUrl().searchParams.get('seed'));
       effected = true;
     }
-    if (getUrlQuery().get('cfg')) {
-      setCfg(getUrlQuery().get('cfg'));
+    if (getUrl().searchParams.get('cfg')) {
+      setCfg(getUrl().searchParams.get('cfg'));
       effected = true;
     }
     if (effected) {
@@ -292,7 +292,7 @@ function Share() {
 
   return (
     <div className="ml-2 fixed bottom-10 right-10" onClick={async () => {
-      copy(`${url.origin}?${qs.stringify(payload, { skipEmptyString: true })}`)
+      copy(`${getUrl().origin}?${qs.stringify(payload, { skipEmptyString: true })}`)
       setCopied(true);
       await sleep(500);
       setCopied(false);
@@ -332,7 +332,6 @@ function Timer() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const getUrlQuery = () => {
-  const url = new URL(typeof window !== 'undefined' ? window.location.href : 'https://a.com');
-  return url.searchParams;
+const getUrl = () => {
+  return new URL(typeof window !== 'undefined' ? window.location.href : 'https://a.com');
 }
