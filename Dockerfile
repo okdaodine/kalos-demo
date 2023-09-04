@@ -16,6 +16,8 @@ WORKDIR $APP_PATH
 
 COPY . .
 
+RUN ls
+
 RUN npm install
 
 RUN npm run build
