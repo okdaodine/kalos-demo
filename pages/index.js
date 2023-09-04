@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { TextField, Button, IconButton } from '@radix-ui/themes';
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom, RESET } from 'jotai';
 import { motion } from "framer-motion";
 import { MixerHorizontalIcon, CopyIcon, CheckIcon, TimerIcon } from '@radix-ui/react-icons';
 import { atomWithStorage } from 'jotai/utils'
@@ -32,9 +32,9 @@ const timeAtom = atom('');
 const payloadAtom = atom(get => ({
   prompt: get(promptAtom),
   negative_prompt: get(negativePromptAtom),
-  step: Number(get(stepAtom) || ''),
-  seed: Number(get(seedAtom) || ''),
-  cfg: get(cfgAtom),
+  step: get(enabledSettingsAtom) ? Number(get(stepAtom) || '20') : 20,
+  seed: get(enabledSettingsAtom) ? Number(get(seedAtom) || '-1') : -1,
+  cfg: get(enabledSettingsAtom) ? get(cfgAtom) : '7',
 }));
 
 const fadeInConfig = {
@@ -145,7 +145,7 @@ export default function Home() {
       )}
 
       {(loading || image) && !reloading && (
-        <div className={`flex items-center justify-center delay-100 duration-1000 transition-all ease-in-out relative mx-auto w-[380px] ${startLoading ? 'h-[380px]' : 'h-0'} rounded-3xl bg-slate-700 ${enabledSettings ? 'mt-2' : 'mt-4'} mb-2 ${loading ? 'animate-pulse' : ''}`}>
+        <div className={`flex items-center justify-center delay-100 duration-1000 transition-all ease-in-out relative mx-auto w-[350px] ${startLoading ? 'h-[350px]' : 'h-0'} rounded-3xl bg-slate-700 ${enabledSettings ? 'mt-2' : 'mt-4'} mb-2 ${loading ? 'animate-pulse' : ''}`}>
           <span className={`text-[20px] transition-all delay-1000 duration-1000 ${startLoading ? 'opacity-50' : 'opacity-0'}`}>One moment...</span>
           {image && (
             <Image
@@ -153,7 +153,7 @@ export default function Home() {
               fill
               src={`/api/images/${image}`}
               alt="output"
-              sizes="380px"
+              sizes="350px"
             />
           )}
         </div>
