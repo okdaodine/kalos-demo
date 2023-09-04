@@ -17,6 +17,8 @@ WORKDIR $APP_PATH
 
 COPY . .
 
+RUN npm install
+
 RUN npm run build
 
 EXPOSE 3000
