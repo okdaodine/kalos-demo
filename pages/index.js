@@ -10,11 +10,6 @@ import { atomWithStorage } from 'jotai/utils'
 import copy from 'copy-to-clipboard';
 import qs from 'query-string';
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-const url = new URL(typeof window !== 'undefined' ? window.location.href : 'https://a.com');
-const urlQuery = url.searchParams;
-
 const promptAtom = atom('');
 const imageAtom = atom('');
 const loadingAtom = atom(false);
@@ -54,8 +49,8 @@ export default function Home() {
   const setTime = useSetAtom(timeAtom);
 
   React.useEffect(() => {
-    if (urlQuery.get('prompt')) {
-      setPrompt(urlQuery.get('prompt'));
+    if (getUrlQuery().get('prompt')) {
+      setPrompt(getUrlQuery().get('prompt'));
     }
   }, []);
 
@@ -231,20 +226,20 @@ function Settings() {
 
   React.useEffect(() => {
     let effected = false;
-    if (urlQuery.get('negativePrompt')) {
-      setNegativePrompt(urlQuery.get('negativePrompt'));
+    if (getUrlQuery().get('negative_prompt')) {
+      setNegativePrompt(getUrlQuery().get('negative_prompt'));
       effected = true;
     }
-    if (urlQuery.get('step')) {
-      setStep(urlQuery.get('step'));
+    if (getUrlQuery().get('step')) {
+      setStep(getUrlQuery().get('step'));
       effected = true;
     }
-    if (urlQuery.get('seed')) {
-      setSeed(urlQuery.get('seed'));
+    if (getUrlQuery().get('seed')) {
+      setSeed(getUrlQuery().get('seed'));
       effected = true;
     }
-    if (urlQuery.get('cfg')) {
-      setCfg(urlQuery.get('cfg'));
+    if (getUrlQuery().get('cfg')) {
+      setCfg(getUrlQuery().get('cfg'));
       effected = true;
     }
     if (effected) {
@@ -333,4 +328,11 @@ function Timer() {
       </div>
     </motion.div>
   )
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const getUrlQuery = () => {
+  const url = new URL(typeof window !== 'undefined' ? window.location.href : 'https://a.com');
+  return url.searchParams;
 }
