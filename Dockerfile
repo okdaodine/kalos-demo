@@ -1,7 +1,6 @@
 FROM node:16.13.2
 
-ENV NODE_ENV=production \
-  APP_PATH=/app
+ENV NODE_ENV=production APP_PATH=/app
 
 WORKDIR $APP_PATH
 
